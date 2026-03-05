@@ -19,7 +19,7 @@
       enable = true;
       # Optional: Load models into GPU memory automatically if you have VRAM
       # acceleration = "cuda"; # Uncomment if you have an NVIDIA GPU
-      # acceleration = "rocm"; # Uncomment if you have an AMD GPU
+      acceleration = "rocm"; # Uncomment if you have an AMD GPU
       
       # Allow your user to access the ollama socket without sudo
       openFirewall = true; 
