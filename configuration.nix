@@ -12,7 +12,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
+    options = "--delete-older-than 7d" --max-n-generations 10";
   };
 
   imports =
@@ -110,6 +110,7 @@
     git
     wget
     curl
+    yazi
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
