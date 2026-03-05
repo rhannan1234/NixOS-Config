@@ -12,7 +12,8 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d" --max-n-generations 10";
+    # FIXED: Combined into a single string with proper quotes
+    options = "--delete-older-than 7d --max-n-generations 10";
   };
 
   imports =
@@ -133,6 +134,6 @@
   # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html  ).
   system.stateVersion = "25.11"; # Did you read the comment?
 }
