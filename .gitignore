@@ -1,0 +1,13 @@
+# Ignore Nix results
+result
+result-*
+
+# Ignore hardware configs (they differ per machine, avoid merge conflicts)
+# NOTE: You usually want to commit hardware-configuration.nix, 
+# but if you want to avoid conflicts, ignore them and regenerate on install.
+# Best practice for personal repos: Commit them. 
+# Best practice for teams: Ignore them. 
+# For this guide, we assume personal repo, so we DO NOT ignore hardware-configuration.nix
+# However, ignore secrets:
+secrets/*.key
+secrets/*.txt
