@@ -118,9 +118,7 @@
     # --- SPICETIFY CONFIGURATION ---
     programs.spicetify = {
       enable = true;
-      extensions = with pkgs.spicetify-extensions; [
-        marketplace
-      ];
+      extensions = [ "marketplace" ];
       
       injectCss = true;
       replaceColors = true;
