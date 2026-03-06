@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs-old, ... }:
 
 {
   # Enable Flakes and Nix Command globally
@@ -106,23 +106,13 @@
     curl
     yazi
     tree
-    spotify
-    spicetify-cli
     
     # Discord + Vencord (Wrapped with Vencord pre-injected)
     (discord.override {
       withVencord = true;
     })
-  ];
 
-    # --- SPICETIFY CONFIGURATION ---
-    programs.spicetify = {
-      enable = true;
-    };
-
-  # Services
-  services.my-ollama.enable = true;
-  # Note: services.lact.enable is handled inside ./gaming.nix
-
-  system.stateVersion = "25.11"; # Did you read the comment?
-}
+    # Spicetify CLI (uses current version)
+    spicetify-cli
+    
+    # SPOTIFY: DOWNG
