@@ -6,7 +6,11 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       # Optional: Ensure HM version matches your NixOS version to prevent breakage
-      # inputs.nixpkgs.follows = "nixpkgs"; 
+      # inputs.nixpkgs.follows = "nixpkgs";
+      
+      # ADD THIS INPUT for Spicetify
+      spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+      spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -16,6 +20,10 @@
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
+          
+          # ADD THIS MODULE import
+          spicetify-nix.nixosModules.default
+          
           # Import the Home Manager NixOS module
           home-manager.nixosModules.home-manager
           {

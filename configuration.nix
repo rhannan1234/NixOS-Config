@@ -1,5 +1,6 @@
 # Edit this configuration file to define what should be installed on
-# your system.
+# your system. Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, ... }:
 
@@ -31,12 +32,18 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "WorkStation";
+  networking.hostName = "WorkStation"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Enable networking
   networking.networkmanager.enable = true;
 
-  # Timezone and Locale
+  # Set your time zone.
   time.timeZone = "Europe/Dublin";
+
+  # Select internationalisation properties.
   i18n.defaultLocale = "en_IE.UTF-8";
+
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IE.UTF-8";
     LC_IDENTIFICATION = "en_IE.UTF-8";
@@ -49,19 +56,23 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
-  # Desktop Environment (GNOME)
+  # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+
+  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  # Printing
+  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Sound (PipeWire)
+  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -71,21 +82,22 @@
     pulse.enable = true;
   };
 
-  # User Account
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.ruairc = {
     isNormalUser = true;
     description = "ruairc";
+    # Added video, render, input for GPU control (LACT) and Gaming
     extraGroups = [ "networkmanager" "wheel" "video" "render" "input" ];
     packages = with pkgs; [];
   };
 
-  # Programs
+  # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages (needed for Steam, Discord, Spotify)
+  # Allow unfree packages (Required for Steam, Discord, Spotify)
   nixpkgs.config.allowUnfree = true;
 
-  # --- MERGED SYSTEM PACKAGES ---
+  # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # Essentials
     vim
@@ -95,17 +107,20 @@
     yazi
     tree
     
-    # Discord + Vencord
+    # Discord + Vencord (Wrapped with Vencord pre-injected)
     (discord.override {
       withVencord = true;
     })
 
-    # Spotify + Spicetify CLI
+    # Spotify (The application itself)
     spotify
-    spicetify-cli
+    
+    # Note: spicetify-cli is provided by the spicetify-nix module, 
+    # so we do not list it here manually to avoid conflicts.
   ];
 
-  # --- SPICETIFY CONFIGURATION ---
+  # Spicetify Configuration
+  # This block is valid because we import the spicetify-nix module in flake.nix
   programs.spicetify = {
     enable = true;
     injectCss = true;
@@ -117,7 +132,7 @@
 
   # Services
   services.my-ollama.enable = true;
-  # Note: LACT is enabled in gaming.nix
+  # Note: services.lact.enable is handled inside ./gaming.nix
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "25.11"; # Did you read the comment?
 }
