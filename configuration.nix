@@ -119,10 +119,6 @@
     programs.spicetify = {
       enable = true;
       enabledExtensions = [ "marketplace" ];
-      
-      injectCss = true;
-      replaceColors = true;
-      overwriteAssets = true;
     };
 
   # Services
