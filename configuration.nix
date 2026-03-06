@@ -118,9 +118,13 @@
     # --- SPICETIFY CONFIGURATION ---
     programs.spicetify = {
       enable = true;
-      # marketplace.enable = true;
-      # Remove injectCss, replaceColors, etc. if they don't exist.
-      # We will apply them via CLI after build.
+      extensions = with pkgs.spicetify-extensions; [
+        marketplace
+      ];
+      
+      injectCss = true;
+      replaceColors = true;
+      overwriteAssets = true;
     };
 
   # Services
