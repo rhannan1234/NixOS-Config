@@ -18,17 +18,15 @@
     vulkan-tools
   ];
 
-  # 3. OpenGL & Vulkan Support (Critical for 32-bit games)
+  # 3. OpenGL & Vulkan Support
+  # Note: driSupport and driSupport32Bit are now automatic when enable=true
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
 
   # 4. LACT Service (AMD GPU Control)
   services.lact.enable = true;
 
   # 5. User Permissions
-  # Replace 'ruairc' with your username if different
   users.users.ruairc.extraGroups = [ "video" "render" "input" ];
 }
