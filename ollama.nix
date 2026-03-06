@@ -1,47 +1,52 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Define options for this module (optional, but good practice)
   options.services.my-ollama = {
-    enable = lib.mkEnableOption "Enable Ollama with TinyLlama";
+    enable = lib.mkEnableOption "Enable Ollama";
     models = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "tinyllama" ];
-      description = "List of models to pull on startup.";
+      default = [ "qwen2.5:7b" ];
+      description = "Models to pull.";
     };
   };
 
-  # The actual configuration implementation
   config = lib.mkIf config.services.my-ollama.enable {
     
-    # 1. Enable the Ollama Service
     services.ollama = {
       enable = true;
-      package = pkgs.ollama-rocm; # ADD THIS LINE
+      openFirewall = false;
+      package = pkgs.ollama-rocm; 
       
-      # Allow your user to access the ollama socket without sudo
-      openFirewall = true; 
+      # Let Ollama handle its own startup. 
+      # We will create a ONESHOT service to pull models ONLY after ollama is running.
     };
 
-    # 2. Add your user to the 'ollama' group so you can run 'ollama run' freely
     users.users.ruairc.extraGroups = [ "ollama" ];
 
-    # 3. Automatically pull models on system activation
-    # This runs every time you rebuild, ensuring the model exists
-    systemd.services.ollama-init = {
-      description = "Pull Ollama models";
+    # Robust Model Puller Service
+    systemd.services.ollama-pull-models = {
+      description = "Pull Ollama models after service starts";
       wantedBy = [ "multi-user.target" ];
-      after = [ "ollama.service" ];
+      after = [ "ollama.service" "network-online.target" ];
+      
+      # Ensure it only runs once per boot/update
       serviceConfig = {
         Type = "oneshot";
-        User = "ollama";
-        Group = "ollama";
+        User = "ruairc"; # Run as your user so permissions are correct
+        Group = "users";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull qwen2.5:7b'";
+        # If you have multiple models, chain them:
+        # ExecStart = [
+        #   "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull qwen2.5:7b'"
+        #   "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull nomic-embed-text'"
+        # ];
       };
-      script = ''
-        ${pkgs.ollama}/bin/ollama pull tinyllama
-        # You can add more models here if needed:
-        # ${pkgs.ollama}/bin/ollama pull llama3
-      '';
+      
+      # If the pull fails, don't fail the whole boot, just log it
+      unitConfig = {
+        FailureAction = "none";
+      };
     };
   };
 }

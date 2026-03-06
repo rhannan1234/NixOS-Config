@@ -5,6 +5,12 @@
 { config, pkgs, ... }:
 
 {
+  # Enable Flakes and Nix Command globally
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
+  };
+  
   # Limit boot entries to prevent filling up the small EFI partition
   boot.loader.systemd-boot.configurationLimit = 5;
 
