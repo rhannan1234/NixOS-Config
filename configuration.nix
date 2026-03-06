@@ -119,16 +119,13 @@
     # so we do not list it here manually to avoid conflicts.
   ];
 
-  # Spicetify Configuration
-  # This block is valid because we import the spicetify-nix module in flake.nix
-  programs.spicetify = {
-    enable = true;
-    injectCss = true;
-    replaceColors = true;
-    overwriteAssets = true;
-    theme = "spicetify-themes"; 
-    marketplace.enable = true;
-  };
+    # --- SPICETIFY CONFIGURATION ---
+    programs.spicetify = {
+      enable = true;
+      marketplace.enable = true;
+      # Remove injectCss, replaceColors, etc. if they don't exist.
+      # We will apply them via CLI after build.
+    };
 
   # Services
   services.my-ollama.enable = true;
