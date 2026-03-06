@@ -122,7 +122,7 @@
     # --- SPICETIFY CONFIGURATION ---
     programs.spicetify = {
       enable = true;
-      marketplace.enable = true;
+      # marketplace.enable = true;
       # Remove injectCss, replaceColors, etc. if they don't exist.
       # We will apply them via CLI after build.
     };
