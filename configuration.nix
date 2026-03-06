@@ -106,17 +106,13 @@
     curl
     yazi
     tree
+    spotify
+    spicetify-cli
     
     # Discord + Vencord (Wrapped with Vencord pre-injected)
     (discord.override {
       withVencord = true;
     })
-
-    # Spotify (The application itself)
-    spotify
-    
-    # Note: spicetify-cli is provided by the spicetify-nix module, 
-    # so we do not list it here manually to avoid conflicts.
   ];
 
     # --- SPICETIFY CONFIGURATION ---
