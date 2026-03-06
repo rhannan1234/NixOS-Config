@@ -26,6 +26,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./ollama.nix
+      ./gaming.nix
     ];
 
   # Bootloader.
@@ -116,6 +117,9 @@
     curl
     yazi
     tree
+    lact
+    mangohud
+    goverlay
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -144,6 +148,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html  ).
   services.my-ollama.enable = true;
+  services.lact.enable = true;
   
   system.stateVersion = "25.11"; # Did you read the comment?
 }
