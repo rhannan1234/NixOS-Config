@@ -118,7 +118,6 @@
     # --- SPICETIFY CONFIGURATION ---
     programs.spicetify = {
       enable = true;
-      enabledExtensions = [ "marketplace" ];
     };
 
   # Services
