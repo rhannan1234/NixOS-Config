@@ -17,9 +17,7 @@
     # 1. Enable the Ollama Service
     services.ollama = {
       enable = true;
-      # Optional: Load models into GPU memory automatically if you have VRAM
-      # acceleration = "cuda"; # Uncomment if you have an NVIDIA GPU
-      acceleration = "rocm"; # Uncomment if you have an AMD GPU
+      package = pkgs.ollama-rocm; # ADD THIS LINE
       
       # Allow your user to access the ollama socket without sudo
       openFirewall = true; 
