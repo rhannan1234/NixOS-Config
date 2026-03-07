@@ -16,4 +16,9 @@
   # Enable Ollama
   services.my-ollama.enable = true;
   services.my-ollama.models = [ "tinyllama" ];
+
+  # ✅ Add ntfs3g for Windows partition support (WorkStation only)
+  environment.systemPackages = with pkgs; [
+    ntfs3g
+  ];
 }
