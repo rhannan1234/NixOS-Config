@@ -44,5 +44,16 @@
       ExecStart = "${pkgs.coreutils}/bin/chmod 600 /boot/loader/random-seed";
       RemainAfterExit = true;
     };
+
+  # ✅ Auto-mount Windows partition
+  fileSystems."/mnt/windows" = {
+    device = "/dev/nvme0n1p3";
+    fsType = "ntfs-3g";
+    options = [ 
+      "defaults" 
+      "uid=1000" 
+      "gid=100" 
+      "umask=022"
+    ];
   };
 }
