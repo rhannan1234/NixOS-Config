@@ -12,9 +12,9 @@
     # --- Languages & Runtimes ---
     python3
     go
-    nixfmt-classic # Modern Nix formatter (replaces nixfmt)
+    nixfmt-classic # Modern Nix formatter
     
-    # --- Spicetify (kept from previous config) ---
+    # --- Spicetify ---
     spicetify-cli
 
     # --- VS Code with Extensions ---
@@ -33,12 +33,11 @@
         # General Quality of Life
         editorconfig.editorconfig
         esbenp.prettier-vscode
-        rust-lang.rust-analyzer # Optional: helpful even if not writing Rust
+        rust-lang.rust-analyzer
       ];
     })
   ];
 
-  # Enable shell completions for these tools
-  programs.bash.completionEnable = true;
-  programs.zsh.completionEnable = true;
+  # Completions are automatically enabled for most packages in systemPackages.
+  # If you specifically need bash/zsh interactive features, configure them in home-manager.
 }
