@@ -19,18 +19,13 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  # ✅ Set state version (MUST match flake.nix)
   system.stateVersion = "25.11";
 
   # ========== AMD GPU Support ==========
   
-  # AMD GPU drivers
   hardware.amdgpu.initrd.enable = true;
-
-  # Enable firmware for AMD GPU
   hardware.enableRedistributableFirmware = true;
 
-  # Kernel parameters for AMD GPU stability
   boot.kernelParams = [
     "amdgpu.runpm=0"
     "amdgpu.sg_display=0"
@@ -39,8 +34,15 @@
     "amdgpu.gpu_recovery=1"
   ];
 
-  # ✅ Fix boot random seed permissions (persistent across reboots)
-  systemd.tmpfiles.rules = [
-    "f /boot/loader/random-seed 600 root root -"
-  ];
+  # ✅ FIX: Use systemd service to fix permissions at boot
+  systemd.services.fix-boot-seed = {
+    description = "Fix boot random seed permissions";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "local-fs.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.coreutils}/bin/chmod 600 /boot/loader/random-seed";
+      RemainAfterExit = true;
+    };
+  };
 }
