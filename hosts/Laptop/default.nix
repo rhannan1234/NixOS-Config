@@ -6,6 +6,7 @@
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/dev-tools.nix
+    ../../modules/multimedia.nix
     
     # NOTE: gaming.nix and services.nix are NOT imported here
   ];

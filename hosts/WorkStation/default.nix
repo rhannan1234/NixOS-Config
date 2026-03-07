@@ -6,6 +6,7 @@
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/dev-tools.nix
+    ../../modules/multimedia.nix
     
     # WorkStation ONLY modules
     ../../modules/gaming.nix

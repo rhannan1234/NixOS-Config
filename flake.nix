@@ -17,12 +17,11 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-old, home-manager, spicetify-nix, ... }: {
+  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: {
     nixosConfigurations = {
       
       WorkStation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit nixpkgs-old; };
         modules = [
           ./hosts/WorkStation          # Points to the folder (reads default.nix)
           spicetify-nix.nixosModules.default
