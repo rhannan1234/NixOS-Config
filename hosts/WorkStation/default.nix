@@ -11,6 +11,8 @@
     # WorkStation ONLY modules
     ../../modules/gaming.nix
     ../../modules/services.nix
+
+    ../../modules/custom-kernal.nix
   ];
 
   # Enable Ollama

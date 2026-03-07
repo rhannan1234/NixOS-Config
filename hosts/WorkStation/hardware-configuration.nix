@@ -38,12 +38,17 @@
   hardware.amdgpu.initrd.enable = true;
   hardware.enableRedistributableFirmware = true;
 
+  # ✅ Updated kernel params with FRL support
   boot.kernelParams = [
     "amdgpu.runpm=0"
     "amdgpu.sg_display=0"
     "amdgpu.noretry=0"
     "amdgpu.vm_fault_stop=0"
     "amdgpu.gpu_recovery=1"
+    # ✅ ADD THESE for HDMI FRL:
+    "amdgpu.frl=1"
+    "amdgpu.link_speed=3"
+    "drm.debug=0xe"
   ];
 
   # ✅ Fix boot random seed permissions
