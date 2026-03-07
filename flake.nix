@@ -5,9 +5,9 @@
     # 1. Main NixPKGS input (Current Unstable)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # 2. OLD NixPKGS input (For compatible Spotify version)
-    # This commit is from approx. August 2024, containing Spotify 1.2.14
-    nixpkgs-old.url = "github:nixos/nixpkgs/a71a68c6b84c6181a6b506067c977b36f57f1a8e";
+    # 2. OLD NixPKGS input (For compatible Spotify version 1.2.14)
+    # Using a verified commit from nixos-24.05 branch
+    nixpkgs-old.url = "github:nixos/nixpkgs/5b0e630567b3e1e0e9d307775a00a06569a8b087";
 
     # 3. Home Manager input
     home-manager = {

@@ -115,4 +115,19 @@
     # Spicetify CLI (uses current version)
     spicetify-cli
     
-    # SPOTIFY: DOWNG
+    # SPOTIFY: DOWNGRADED to 1.2.14 using nixpkgs-old for Spicetify compatibility
+    (nixpkgs-old.legacyPackages.x86_64-linux.spotify)
+  ];
+
+  # --- SPICETIFY CONFIGURATION ---
+  programs.spicetify = {
+    enable = true;
+    # We manage extensions manually via CLI to avoid API breakage
+  };
+
+  # Services
+  services.my-ollama.enable = true;
+  # Note: services.lact.enable is handled inside ./gaming.nix
+
+  system.stateVersion = "25.11"; # Did you read the comment?
+}
