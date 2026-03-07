@@ -3,27 +3,28 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-old = {
-      url = "github:nixos/nixpkgs/nixos-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    # REMOVED: nixpkgs-old input
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: {
+  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: { # Removed nixpkgs-old from args
     nixosConfigurations = {
       
       WorkStation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        # REMOVED: specialArgs = { inherit nixpkgs-old; };
         modules = [
-          ./hosts/WorkStation          # Points to the folder (reads default.nix)
+          ./hosts/WorkStation
           spicetify-nix.nixosModules.default
           home-manager.nixosModules.home-manager
           {
@@ -39,9 +40,9 @@
 
       Laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit nixpkgs-old; };
+        # REMOVED: specialArgs = { inherit nixpkgs-old; };
         modules = [
-          ./hosts/Laptop               # Points to the folder
+          ./hosts/Laptop
           spicetify-nix.nixosModules.default
           home-manager.nixosModules.home-manager
           {
