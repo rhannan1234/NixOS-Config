@@ -17,7 +17,7 @@
     pulse.enable = true;
   };
 
-  programs.brave.enable = true;
+  programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
 
   # ✅ FIX: Enable GNOME Keyring (no .components option)
