@@ -1,16 +1,34 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  # HDMI FRL Patched Kernel
-  linux-hdmi-frl = pkgs.linux.override {
-    src = pkgs.fetchFromGitHub {
-      owner = "mkopec";
-      repo = "linux";
-      rev = "hdmi_frl";
-      # ✅ FIX: Remove "sha256-" prefix
-      sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
-    };
-  };
+  # HDMI FRL Patched Kernel - Using buildLinux (more reliable)
+  linux-hdmi-frl = pkgs.callPackage ({ stdenv, fetchFromGitHub, buildLinux, kernelPatches ? [] }: 
+    buildLinux {
+      version = "6.12.75-frl";
+      
+      src = fetchFromGitHub {
+        owner = "mkopec";
+        repo = "linux";
+        rev = "hdmi_frl";
+        sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
+      };
+      
+      defconfig = "x86_64_defconfig";
+      
+      kernelPatches = kernelPatches;
+      
+      structuredExtraConfig = with lib.kernel; {
+        # Enable required features
+        KVM = yes;
+        DRM_AMDGPU = yes;
+        DRM_AMDGPU_SI = yes;
+        DRM_AMDGPU_CIK = yes;
+        DRM_AMD_DC = yes;
+      };
+      
+      extraMeta.branch = "hdmi_frl";
+    }
+  ) { };
 in
 {
   imports = [
@@ -60,7 +78,6 @@ in
     "amdgpu.noretry=0"
     "amdgpu.vm_fault_stop=0"
     "amdgpu.gpu_recovery=1"
-    # ✅ HDMI FRL specific
     "amdgpu.frl=1"
     "amdgpu.link_speed=3"
     "drm.debug=0xe"
