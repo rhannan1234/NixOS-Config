@@ -30,21 +30,53 @@
       openFirewall = false;
       # Use ROCm-enabled package
       package = pkgs.ollama-rocm;
-      # Force RDNA4/gfx1201 target for RX 9070 XT [[11]]
+      # Force RDNA4/gfx1201 target for RX 9070 XT
       rocmOverrideGfx = "12.0.1";
-      # Optional: Additional env vars if needed
+      # Auto-unload models after 2 minutes of idle (saves VRAM)
       environmentVariables = {
         HCC_AMDGPU_TARGET = "gfx1201";
+        OLLAMA_KEEP_ALIVE = "2m";
       };
     };
 
     # === Open WebUI Integration ===
     services.open-webui = {
       enable = true;
-      port = 8080;  # Default port, change if needed
-      host = "127.0.0.1";  # Bind to localhost; use "0.0.0.0" for network access
-      openFirewall = false;  # Set true if accessing remotely
+      port = 8080;
+      host = "127.0.0.1";
+      openFirewall = false;
+      # Match Ollama's keep-alive setting
+      environment = {
+        OLLAMA_KEEP_ALIVE = "2m";
+      };
     };
+
+    # === CLI Helper Scripts ===
+    environment.systemPackages = with pkgs; [
+      # Unload all models from VRAM instantly
+      (writeShellScriptBin "ollama-unload" ''
+        #!/usr/bin/env bash
+        echo "🧹 Unloading all Ollama models from VRAM..."
+        curl -s http://localhost:11434/api/generate -d '{"model": ""}' > /dev/null
+        if [ $? -eq 0 ]; then
+          echo "✅ All models unloaded!"
+        else
+          echo "❌ Failed. Is Ollama running? (systemctl status ollama)"
+          exit 1
+        fi
+      '')
+      
+      # Check which models are currently loaded in VRAM
+      (writeShellScriptBin "ollama-status" ''
+        #!/usr/bin/env bash
+        echo "📊 Currently Loaded Models:"
+        curl -s http://localhost:11434/api/ps | jq '.models[] | {name, size, expires_at}'
+        if [ $? -ne 0 ]; then
+          echo "❌ Cannot connect to Ollama"
+          exit 1
+        fi
+      '')
+    ];
 
     # === Model Puller Service (updated for ROCm) ===
     systemd.services.ollama-pull-models = {
@@ -60,7 +92,6 @@
         Group = "users";
         RemainAfterExit = true;
         ExecStart = "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull ${lib.concatStringsSep " " config.services.my-ollama.models}'";
-        # Ensure ROCm env vars are available during model pull
         Environment = [
           "HCC_AMDGPU_TARGET=gfx1201"
           "HSA_OVERRIDE_GFX_VERSION=12.0.1"

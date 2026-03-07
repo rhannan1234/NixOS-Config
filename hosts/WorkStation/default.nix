@@ -10,7 +10,7 @@
     
     # WorkStation ONLY modules
     ../../modules/gaming.nix
-    ../../modules/services.nix
+    ../../modules/AI.nix
 
     # ✅ REMOVE THIS LINE:
     # ../../modules/custom-kernel.nix

@@ -8,6 +8,7 @@
     yazi
     tree
     unzip
+    jq
     
     # --- Languages & Runtimes ---
     python3
