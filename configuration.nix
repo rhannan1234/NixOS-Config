@@ -4,7 +4,6 @@
 
 { config, pkgs, nixpkgs-old, ... }:
 
-
 {
   # Enable Flakes and Nix Command globally
   nix.settings = {
@@ -116,8 +115,14 @@
     # Spicetify CLI (uses current version)
     spicetify-cli
     
-    # SPOTIFY: DOWNGRADED to 1.2.14 using nixpkgs-old for Spicetify compatibility
-    (nixpkgs-old.legacyPackages.x86_64-linux.spotify)
+    # SPOTIFY: DOWNGRADED with explicit unfree allowance
+    # We import nixpkgs-old manually here to enable allowUnfree for this specific package
+    (let 
+       pkgs-old = import nixpkgs-old { 
+         system = "x86_64-linux"; 
+         config = { allowUnfree = true; }; 
+       };
+     in pkgs-old.spotify)
   ];
 
   # --- SPICETIFY CONFIGURATION ---
