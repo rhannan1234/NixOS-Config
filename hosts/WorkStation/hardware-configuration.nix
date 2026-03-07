@@ -50,7 +50,7 @@ in
   hardware.enableRedistributableFirmware = true;
 
   # ✅ CUSTOM KERNEL (moved from custom-kernel.nix)
-  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor linux-hdmi-frl);
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
   boot.kernelParams = [
     "amdgpu.runpm=0"
