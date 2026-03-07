@@ -1,27 +1,5 @@
 { config, lib, pkgs, modulesPath, ... }:
 
-let
-  # HDMI FRL Patched Kernel - Using NixOS defconfig
-  linux-hdmi-frl = pkgs.buildLinux {
-    version = "6.12.75-frl";
-    
-    src = pkgs.fetchFromGitHub {
-      owner = "mkopec";
-      repo = "linux";
-      rev = "hdmi_frl";
-      sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
-    };
-    
-    # ✅ Use NixOS defconfig instead of x86_64_defconfig
-    defconfig = "nixos";
-    
-    kernelPatches = [];
-    
-    # ✅ Remove structuredExtraConfig (NixOS defconfig has what we need)
-    
-    extraMeta.branch = "hdmi_frl";
-  };
-in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -60,19 +38,13 @@ in
   hardware.amdgpu.initrd.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  # ✅ CUSTOM KERNEL with mkForce
-  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor linux-hdmi-frl);
-
-  # ✅ FRL-specific kernel parameters
+  # ✅ Stable kernel params (no FRL overrides)
   boot.kernelParams = [
     "amdgpu.runpm=0"
     "amdgpu.sg_display=0"
     "amdgpu.noretry=0"
     "amdgpu.vm_fault_stop=0"
     "amdgpu.gpu_recovery=1"
-    "amdgpu.frl=1"
-    "amdgpu.link_speed=3"
-    "drm.debug=0xe"
   ];
 
   systemd.services.fix-boot-seed = {
