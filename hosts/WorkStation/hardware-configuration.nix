@@ -34,4 +34,8 @@
   boot.kernelParams = [
     "amdgpu.runpm=0"
   ];
+
+  boot.loader.systemd-boot.extraInstallCommands = ''
+    chmod 600 /boot/loader/random-seed
+  '';
 }

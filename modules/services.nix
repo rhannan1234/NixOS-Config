@@ -16,11 +16,6 @@
       enable = true;
       openFirewall = false;
       package = pkgs.ollama-rocm;
-      
-      # ✅ Minimal env vars for ROCm
-      environmentVariables = {
-        HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-      };
     };
 
     # Model Puller Service
