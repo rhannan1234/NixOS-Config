@@ -15,7 +15,7 @@
     services.ollama = {
       enable = true;
       openFirewall = false;
-      package = pkgs.ollama-rocm;
+      package = pkgs.ollama;
     };
 
     # Model Puller Service
@@ -24,6 +24,7 @@
       wantedBy = [ "multi-user.target" ];
       after = [ "ollama.service" "network-online.target" ];
       requires = [ "ollama.service" ];
+      wants = ["network-online.target" ];
       
       serviceConfig = {
         Type = "oneshot";

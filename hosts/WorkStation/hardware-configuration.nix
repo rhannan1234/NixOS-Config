@@ -35,7 +35,7 @@
     "amdgpu.runpm=0"
   ];
 
-  boot.loader.systemd-boot.extraInstallCommands = ''
-    chmod 600 /boot/loader/random-seed
-  '';
+ boot.loader.systemd-boot.extraInstallCommands = ''
+   ${pkgs.coreutils}/bin/chmod 600 /boot/loader/random-seed
+'';
 }
