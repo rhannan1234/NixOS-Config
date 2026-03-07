@@ -19,7 +19,6 @@
   ];
 
   # 3. OpenGL & Vulkan Support
-  # ✅ ONLY place hardware.graphics is defined
   hardware.graphics = {
     enable = true;
     enable32Bit = lib.mkForce true;
@@ -29,7 +28,6 @@
   services.lact.enable = true;
 
   # 5. User Permissions
-  # ✅ REMOVED: ollama, wheel, video, render (defined in base.nix)
   users.users.ruairc.extraGroups = [ 
     "input"
   ];

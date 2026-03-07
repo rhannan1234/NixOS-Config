@@ -15,12 +15,11 @@
     services.ollama = {
       enable = true;
       openFirewall = false;
-      # ✅ Just set the package - no acceleration option needed
       package = pkgs.ollama-rocm;
       
+      # ✅ Minimal env vars for ROCm
       environmentVariables = {
         HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-        ROCM_PATH = "${pkgs.rocmPackages.clr}";
       };
     };
 

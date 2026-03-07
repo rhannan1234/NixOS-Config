@@ -15,7 +15,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 5;
 
-  # ✅ REMOVED: networking.hostName (defined in default.nix)
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Dublin";

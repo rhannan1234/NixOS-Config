@@ -24,31 +24,14 @@
 
   # ========== AMD GPU Support ==========
   
-  # ✅ REMOVED: hardware.graphics (now ONLY in gaming.nix)
-
   # AMD GPU drivers
   hardware.amdgpu.initrd.enable = true;
 
   # Enable firmware for AMD GPU
   hardware.enableRedistributableFirmware = true;
 
-  # Kernel parameters for AMD GPU stability
+  # Kernel parameters for AMD GPU stability (add back if needed)
   boot.kernelParams = [
     "amdgpu.runpm=0"
-    "amdgpu.sg_display=0"
   ];
-
-  # Add ROCm libraries to system packages
-  environment.systemPackages = with pkgs; [
-    rocmPackages.clr
-    rocmPackages.rocm-smi
-    vulkan-loader
-    vulkan-validation-layers
-  ];
-
-  # Set ROCm environment variables
-  environment.variables = {
-    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-    ROCM_PATH = "${pkgs.rocmPackages.clr}";
-  };
 }

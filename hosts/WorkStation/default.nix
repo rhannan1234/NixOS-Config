@@ -13,8 +13,6 @@
     ../../modules/services.nix
   ];
 
-  # ✅ REMOVED: networking.hostName (defined in base.nix)
-
   # Enable Ollama
   services.my-ollama.enable = true;
   services.my-ollama.models = [ "tinyllama" ];
