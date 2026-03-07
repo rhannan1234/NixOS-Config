@@ -1,9 +1,9 @@
-{ config, pkgs, ... }: {  # <--- Ensure nixpkgs-old is NOT here
+{ config, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     
-    (discord.override {
-      withVencord = true;
-    })
+    # Replace discord with vesktop
+    # Vesktop includes Vencord by default in nixpkgs
+    vesktop
 
     # Latest official Spotify
     spotify

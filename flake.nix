@@ -2,14 +2,11 @@
   description = "My NixOS Configuration";
 
   inputs = {
-    # ✅ NixOS 25.11 Stable Release
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,9 +25,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.ruairc = { pkgs, ... }: {
-              home.stateVersion = "25.11"; # ✅ Match NixOS version
-            };
+            # Import the external file here
+            home-manager.users.ruairc = import ./home.nix;
           }
         ];
       };
@@ -44,9 +40,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.ruairc = { pkgs, ... }: {
-              home.stateVersion = "25.11";
-            };
+            # Import the same file here (DRY principle)
+            home-manager.users.ruairc = import ./home.nix;
           }
         ];
       };
