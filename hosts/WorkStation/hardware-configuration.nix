@@ -7,7 +7,8 @@ let
       owner = "mkopec";
       repo = "linux";
       rev = "hdmi_frl";
-      sha256 = "sha256-0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
+      # ✅ FIX: Remove "sha256-" prefix
+      sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
     };
   };
 in
@@ -49,15 +50,20 @@ in
   hardware.amdgpu.initrd.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  # ✅ CUSTOM KERNEL (moved from custom-kernel.nix)
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  # ✅ CUSTOM KERNEL with mkForce
+  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor linux-hdmi-frl);
 
+  # ✅ FRL-specific kernel parameters
   boot.kernelParams = [
     "amdgpu.runpm=0"
     "amdgpu.sg_display=0"
     "amdgpu.noretry=0"
     "amdgpu.vm_fault_stop=0"
     "amdgpu.gpu_recovery=1"
+    # ✅ HDMI FRL specific
+    "amdgpu.frl=1"
+    "amdgpu.link_speed=3"
+    "drm.debug=0xe"
   ];
 
   systemd.services.fix-boot-seed = {
