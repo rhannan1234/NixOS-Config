@@ -16,5 +16,8 @@
   # Ensure hostname is set
   networking.hostName = "WorkStation";
 
+  services.my-ollama.enable = true;
+  services.my-ollama.models = [ "tinyllama" ]; # Optional: customize models
+
   # Any other WorkStation-specific overrides go here
 }

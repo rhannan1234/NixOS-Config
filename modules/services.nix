@@ -5,7 +5,7 @@
     enable = lib.mkEnableOption "Enable Ollama";
     models = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "qwen2.5:7b" ];
+      default = [ "tinyllama" ];
       description = "Models to pull.";
     };
   };
@@ -15,39 +15,41 @@
     services.ollama = {
       enable = true;
       openFirewall = false;
-      package = pkgs.ollama-rocm; 
+      package = pkgs.ollama-rocm;
+      acceleration = "rocm";
       
-      # Let Ollama handle its own startup. 
-      # We will create a ONESHOT service to pull models ONLY after ollama is running.
+      # Set environment variables for the service
+      environmentVariables = {
+        HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+        ROCM_PATH = "${pkgs.rocmPackages.clr}";
+      };
     };
 
-    users.users.ruairc.extraGroups = [ "ollama" ];
+    users.users.ruairc.extraGroups = [ 
+      "ollama" 
+      "render"
+      "video"
+      "wheel"
+    ];
 
-    # Robust Model Puller Service
+    # Model Puller Service
     systemd.services.ollama-pull-models = {
       description = "Pull Ollama models after service starts";
       wantedBy = [ "multi-user.target" ];
       after = [ "ollama.service" "network-online.target" ];
+      requires = [ "ollama.service" ];
       
-      # Ensure it only runs once per boot/update
       serviceConfig = {
         Type = "oneshot";
-        User = "ruairc"; # Run as your user so permissions are correct
+        User = "ruairc";
         Group = "users";
         RemainAfterExit = true;
-        ExecStart = "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull qwen2.5:7b'";
-        # If you have multiple models, chain them:
-        # ExecStart = [
-        #   "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull qwen2.5:7b'"
-        #   "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull nomic-embed-text'"
-        # ];
+        ExecStart = "${pkgs.bash}/bin/bash -c '${config.services.ollama.package}/bin/ollama pull ${lib.concatStringsSep " " config.services.my-ollama.models}'";
       };
       
-      # If the pull fails, don't fail the whole boot, just log it
       unitConfig = {
         FailureAction = "none";
       };
     };
   };
 }
-

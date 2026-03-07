@@ -1,13 +1,12 @@
-{ config, lib, pkgs, modulesPath, ...}:
+{ config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = 
-    [
-      (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
   fileSystems."/" = {
-    device = "dev/disk/by-uuid/1d4db494-7a66-44c2-9748-96b5a838232d";
+    device = "/dev/disk/by-uuid/1d4db494-7a66-44c2-9748-96b5a838232d";
     fsType = "ext4";
   };
 
@@ -19,4 +18,38 @@
   swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # ========== AMD GPU Support ==========
+  
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = false;
+  };
+
+  # AMD GPU drivers
+  hardware.amdgpu.initrd.enable = true;
+
+  # Enable firmware for AMD GPU
+  hardware.enableRedistributableFirmware = true;
+
+  # Kernel parameters for AMD GPU stability
+  boot.kernelParams = [
+    "amdgpu.runpm=0"
+    "amdgpu.sg_display=0"
+  ];
+
+  # Add ROCm libraries to system packages
+  environment.systemPackages = with pkgs; [
+    rocmPackages.clr
+    rocmPackages.rocm-smi
+    vulkan-loader
+  ];
+
+  # Set ROCm environment variables
+  environment.variables = {
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0";  # For RDNA3 (7900 XT/XTX)
+    ROCM_PATH = "${pkgs.rocmPackages.clr}";
+  };
 }
