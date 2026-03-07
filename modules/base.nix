@@ -9,6 +9,11 @@
     dates = "weekly";
     options = "--delete-older-than 7d --max-n-generations 10";
   };
+  
+  # Bootloader Configuration
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 5; # Keep your cleanup setting
 
   networking.hostName = "WorkStation";
   networking.networkmanager.enable = true;
