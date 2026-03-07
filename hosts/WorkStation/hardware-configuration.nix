@@ -1,5 +1,16 @@
 { config, lib, pkgs, modulesPath, ... }:
 
+let
+  # HDMI FRL Patched Kernel
+  linux-hdmi-frl = pkgs.linux.override {
+    src = pkgs.fetchFromGitHub {
+      owner = "mkopec";
+      repo = "linux";
+      rev = "hdmi_frl";
+      sha256 = "sha256-0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
+    };
+  };
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -38,20 +49,17 @@
   hardware.amdgpu.initrd.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  # ✅ Updated kernel params with FRL support
+  # ✅ CUSTOM KERNEL (moved from custom-kernel.nix)
+  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor linux-hdmi-frl);
+
   boot.kernelParams = [
     "amdgpu.runpm=0"
     "amdgpu.sg_display=0"
     "amdgpu.noretry=0"
     "amdgpu.vm_fault_stop=0"
     "amdgpu.gpu_recovery=1"
-    # ✅ ADD THESE for HDMI FRL:
-    "amdgpu.frl=1"
-    "amdgpu.link_speed=3"
-    "drm.debug=0xe"
   ];
 
-  # ✅ Fix boot random seed permissions
   systemd.services.fix-boot-seed = {
     description = "Fix boot random seed permissions";
     wantedBy = [ "multi-user.target" ];
