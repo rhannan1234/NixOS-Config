@@ -30,12 +30,17 @@
   # Enable firmware for AMD GPU
   hardware.enableRedistributableFirmware = true;
 
-  # Kernel parameters for AMD GPU stability (add back if needed)
+  # Kernel parameters for AMD GPU stability
   boot.kernelParams = [
     "amdgpu.runpm=0"
+    "amdgpu.sg_display=0"
+    "amdgpu.noretry=0"
+    "amdgpu.vm_fault_stop=0"
+    "amdgpu.gpu_recovery=1"
   ];
 
- boot.loader.systemd-boot.extraInstallCommands = ''
-   ${pkgs.coreutils}/bin/chmod 600 /boot/loader/random-seed
-'';
+  # ✅ Fix boot random seed permissions (persistent across reboots)
+  systemd.tmpfiles.rules = [
+    "f /boot/loader/random-seed 600 root root -"
+  ];
 }

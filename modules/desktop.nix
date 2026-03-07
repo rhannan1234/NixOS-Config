@@ -19,4 +19,7 @@
 
   programs.firefox.enable = true;
   nixpkgs.config.allowUnfree = true;
+
+  # ✅ FIX: Enable GNOME Keyring (fixes gkr-pam warning)
+  services.gnome.gnome-keyring.enable = true;
 }
