@@ -15,6 +15,18 @@
     fsType = "vfat";
   };
 
+  # ✅ Windows Partition Auto-Mount
+  fileSystems."/mnt/windows" = {
+    device = "/dev/nvme0n1p3";
+    fsType = "ntfs-3g";
+    options = [ 
+      "defaults" 
+      "uid=1000" 
+      "gid=100" 
+      "umask=022"
+    ];
+  };
+
   swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -34,7 +46,7 @@
     "amdgpu.gpu_recovery=1"
   ];
 
-  # ✅ FIX: Use systemd service to fix permissions at boot
+  # ✅ Fix boot random seed permissions
   systemd.services.fix-boot-seed = {
     description = "Fix boot random seed permissions";
     wantedBy = [ "multi-user.target" ];
@@ -44,16 +56,5 @@
       ExecStart = "${pkgs.coreutils}/bin/chmod 600 /boot/loader/random-seed";
       RemainAfterExit = true;
     };
-
-  # ✅ Auto-mount Windows partition
-  fileSystems."/mnt/windows" = {
-    device = "/dev/nvme0n1p3";
-    fsType = "ntfs-3g";
-    options = [ 
-      "defaults" 
-      "uid=1000" 
-      "gid=100" 
-      "umask=022"
-    ];
   };
 }
