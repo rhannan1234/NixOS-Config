@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+{ config, pkgs, nixpkgs-old, ... }:
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
