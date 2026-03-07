@@ -1,34 +1,31 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  # HDMI FRL Patched Kernel - Using buildLinux (more reliable)
-  linux-hdmi-frl = pkgs.callPackage ({ stdenv, fetchFromGitHub, buildLinux, kernelPatches ? [] }: 
-    buildLinux {
-      version = "6.12.75-frl";
-      
-      src = fetchFromGitHub {
-        owner = "mkopec";
-        repo = "linux";
-        rev = "hdmi_frl";
-        sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
-      };
-      
-      defconfig = "x86_64_defconfig";
-      
-      kernelPatches = kernelPatches;
-      
-      structuredExtraConfig = with lib.kernel; {
-        # Enable required features
-        KVM = yes;
-        DRM_AMDGPU = yes;
-        DRM_AMDGPU_SI = yes;
-        DRM_AMDGPU_CIK = yes;
-        DRM_AMD_DC = yes;
-      };
-      
-      extraMeta.branch = "hdmi_frl";
-    }
-  ) { };
+  # HDMI FRL Patched Kernel - Direct buildLinux call
+  linux-hdmi-frl = pkgs.buildLinux {
+    version = "6.12.75-frl";
+    
+    src = pkgs.fetchFromGitHub {
+      owner = "mkopec";
+      repo = "linux";
+      rev = "hdmi_frl";
+      sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
+    };
+    
+    defconfig = "x86_64_defconfig";
+    
+    kernelPatches = [];
+    
+    structuredExtraConfig = with lib.kernel; {
+      KVM = yes;
+      DRM_AMDGPU = yes;
+      DRM_AMDGPU_SI = yes;
+      DRM_AMDGPU_CIK = yes;
+      DRM_AMD_DC = yes;
+    };
+    
+    extraMeta.branch = "hdmi_frl";
+  };
 in
 {
   imports = [
