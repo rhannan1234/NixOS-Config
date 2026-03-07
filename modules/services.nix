@@ -18,19 +18,13 @@
       package = pkgs.ollama-rocm;
       acceleration = "rocm";
       
-      # Set environment variables for the service
       environmentVariables = {
         HSA_OVERRIDE_GFX_VERSION = "11.0.0";
         ROCM_PATH = "${pkgs.rocmPackages.clr}";
       };
     };
 
-    users.users.ruairc.extraGroups = [ 
-      "ollama" 
-      "render"
-      "video"
-      "wheel"
-    ];
+    # ✅ REMOVED: users.users.ruairc.extraGroups (defined in base.nix)
 
     # Model Puller Service
     systemd.services.ollama-pull-models = {

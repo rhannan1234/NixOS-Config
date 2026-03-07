@@ -13,9 +13,9 @@
   # Bootloader Configuration
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 5; # Keep your cleanup setting
+  boot.loader.systemd-boot.configurationLimit = 5;
 
-  networking.hostName = "WorkStation";
+  # ✅ REMOVED: networking.hostName (defined in default.nix)
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Dublin";
@@ -32,10 +32,18 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
+  # ✅ ALL user groups defined in ONE place
   users.users.ruairc = {
     isNormalUser = true;
     description = "ruairc";
-    extraGroups = [ "networkmanager" "wheel" "video" "render" "input" "ollama" ];
+    extraGroups = [ 
+      "networkmanager" 
+      "wheel" 
+      "video" 
+      "render" 
+      "input" 
+      "ollama" 
+    ];
     packages = with pkgs; [];
   };
 }

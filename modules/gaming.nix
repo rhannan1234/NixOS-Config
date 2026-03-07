@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
 
   # 1. Enable Steam
   programs.steam = {
@@ -19,14 +19,18 @@
   ];
 
   # 3. OpenGL & Vulkan Support
-  # Note: driSupport and driSupport32Bit are now automatic when enable=true
-  hardware.opengl = {
+  # ✅ ONLY place hardware.graphics is defined
+  hardware.graphics = {
     enable = true;
+    enable32Bit = lib.mkForce true;
   };
 
   # 4. LACT Service (AMD GPU Control)
   services.lact.enable = true;
 
   # 5. User Permissions
-  users.users.ruairc.extraGroups = [ "video" "render" "input" ];
+  # ✅ REMOVED: ollama, wheel, video, render (defined in base.nix)
+  users.users.ruairc.extraGroups = [ 
+    "input"
+  ];
 }

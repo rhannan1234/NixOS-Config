@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # REMOVED: nixpkgs-old input
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,12 +15,11 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: { # Removed nixpkgs-old from args
+  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: {
     nixosConfigurations = {
       
       WorkStation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        # REMOVED: specialArgs = { inherit nixpkgs-old; };
         modules = [
           ./hosts/WorkStation
           spicetify-nix.nixosModules.default
@@ -31,8 +28,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.ruairc = { pkgs, ... }: {
-              home.stateVersion = "25.11";
-              home.packages = [ pkgs.git ];
+              home.stateVersion = "25.11"; # ✅ Match NixOS version
             };
           }
         ];
@@ -40,7 +36,6 @@
 
       Laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        # REMOVED: specialArgs = { inherit nixpkgs-old; };
         modules = [
           ./hosts/Laptop
           spicetify-nix.nixosModules.default
@@ -50,12 +45,10 @@
             home-manager.useUserPackages = true;
             home-manager.users.ruairc = { pkgs, ... }: {
               home.stateVersion = "25.11";
-              home.packages = [ pkgs.git ];
             };
           }
         ];
       };
-
     };
   };
 }

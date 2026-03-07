@@ -19,14 +19,12 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  # ✅ Set state version (MUST match flake.nix)
+  system.stateVersion = "25.11";
+
   # ========== AMD GPU Support ==========
   
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = false;
-  };
+  # ✅ REMOVED: hardware.graphics (now ONLY in gaming.nix)
 
   # AMD GPU drivers
   hardware.amdgpu.initrd.enable = true;
@@ -45,11 +43,12 @@
     rocmPackages.clr
     rocmPackages.rocm-smi
     vulkan-loader
+    vulkan-validation-layers
   ];
 
   # Set ROCm environment variables
   environment.variables = {
-    HSA_OVERRIDE_GFX_VERSION = "11.0.0";  # For RDNA3 (7900 XT/XTX)
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
     ROCM_PATH = "${pkgs.rocmPackages.clr}";
   };
 }

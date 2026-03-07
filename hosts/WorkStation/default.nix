@@ -10,14 +10,12 @@
     
     # WorkStation ONLY modules
     ../../modules/gaming.nix
-    ../../modules/services.nix # Ollama
+    ../../modules/services.nix
   ];
 
-  # Ensure hostname is set
-  networking.hostName = "WorkStation";
+  # ✅ REMOVED: networking.hostName (defined in base.nix)
 
+  # Enable Ollama
   services.my-ollama.enable = true;
-  services.my-ollama.models = [ "tinyllama" ]; # Optional: customize models
-
-  # Any other WorkStation-specific overrides go here
+  services.my-ollama.models = [ "tinyllama" ];
 }
