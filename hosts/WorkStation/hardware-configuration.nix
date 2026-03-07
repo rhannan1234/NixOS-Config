@@ -1,7 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  # HDMI FRL Patched Kernel - Direct buildLinux call
+  # HDMI FRL Patched Kernel - Using NixOS defconfig
   linux-hdmi-frl = pkgs.buildLinux {
     version = "6.12.75-frl";
     
@@ -12,17 +12,12 @@ let
       sha256 = "0330f5db4xnkh1rdgcpch0nicchzd5igcl6w0dzwj9afnl28lvh0";
     };
     
-    defconfig = "x86_64_defconfig";
+    # ✅ Use NixOS defconfig instead of x86_64_defconfig
+    defconfig = "nixos";
     
     kernelPatches = [];
     
-    structuredExtraConfig = with lib.kernel; {
-      KVM = yes;
-      DRM_AMDGPU = yes;
-      DRM_AMDGPU_SI = yes;
-      DRM_AMDGPU_CIK = yes;
-      DRM_AMD_DC = yes;
-    };
+    # ✅ Remove structuredExtraConfig (NixOS defconfig has what we need)
     
     extraMeta.branch = "hdmi_frl";
   };
