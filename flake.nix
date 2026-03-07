@@ -2,22 +2,15 @@
   description = "My NixOS Configuration";
 
   inputs = {
-    # 1. Main NixPKGS input (Current Unstable)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # 2. OLD NixPKGS input (For compatible Spotify version)
     nixpkgs-old = {
       url = "github:nixos/nixpkgs/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # 3. Home Manager input
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # 4. Spicetify Nix input
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,34 +19,43 @@
 
   outputs = { nixpkgs, nixpkgs-old, home-manager, spicetify-nix, ... }: {
     nixosConfigurations = {
+      
       WorkStation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        
-        # CRITICAL: Pass nixpkgs-old to all modules
         specialArgs = { inherit nixpkgs-old; };
-
         modules = [
-          ./configuration.nix
-          
-          # Import Spicetify as a NixOS Module
+          ./hosts/WorkStation          # Points to the folder (reads default.nix)
           spicetify-nix.nixosModules.default
-          
-          # Import Home Manager
           home-manager.nixosModules.home-manager
-          
-          # Home Manager User Configuration
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            
             home-manager.users.ruairc = { pkgs, ... }: {
-              home.stateVersion = "25.11"; 
+              home.stateVersion = "25.11";
               home.packages = [ pkgs.git ];
-              # Add more HM packages here if needed
             };
           }
         ];
       };
+
+      Laptop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit nixpkgs-old; };
+        modules = [
+          ./hosts/Laptop               # Points to the folder
+          spicetify-nix.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.ruairc = { pkgs, ... }: {
+              home.stateVersion = "25.11";
+              home.packages = [ pkgs.git ];
+            };
+          }
+        ];
+      };
+
     };
   };
 }
