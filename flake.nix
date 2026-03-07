@@ -26,6 +26,10 @@
     nixosConfigurations = {
       WorkStation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        
+        # CRITICAL FIX: Explicitly pass nixpkgs-old to all modules
+        specialArgs = { inherit nixpkgs-old; };
+
         modules = [
           ./configuration.nix
           
