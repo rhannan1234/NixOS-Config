@@ -31,13 +31,26 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
-  # ✅ Zram Swap - compressed RAM swap (prevents OOM during builds)
+  # ✅ Zram Swap - compressed RAM swap (fast, preferred)
   zramSwap = {
     enable = true;
-    algorithm = "zstd";        # Better compression than default
-    priority = 100;            # Higher priority than disk swap
-    memoryPercent = 50;        # Use up to 50% of RAM (~15GB on your 30GB system)
+    algorithm = "zstd";
+    priority = 100;            # Higher priority = used first
+    memoryPercent = 50;        # ~15GB on your 30GB system
   };
+
+  # ✅ SSD Swap File - larger backup swap (slower but prevents OOM)
+  systemd.tmpfiles.rules = [
+    "f /swapfile 0600 root root 16G"  # Create 16GB swap file
+  ];
+
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 16384;            # 16GB in MB
+      priority = 10;           # Lower than zram's 100, so zram is preferred
+    }
+  ];
 
   # ✅ ALL user groups defined in ONE place
   users.users.ruairc = {
