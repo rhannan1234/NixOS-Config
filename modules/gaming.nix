@@ -16,8 +16,10 @@
     lact
     protonup-qt
     vulkan-tools
-    lsfg-vk
     protonplus
+
+    pkgs.legacyPackages.${pkgs.system}.lsfg-vk
+    pkgs.legacyPackages.${pkgs.system}.lsfg-vk-ui
   ];
 
   # 3. OpenGL & Vulkan Support
