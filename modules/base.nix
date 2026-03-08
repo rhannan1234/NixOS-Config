@@ -31,6 +31,14 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
+  # ✅ Zram Swap - compressed RAM swap (prevents OOM during builds)
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";        # Better compression than default
+    priority = 100;            # Higher priority than disk swap
+    memoryPercent = 50;        # Use up to 50% of RAM (~15GB on your 30GB system)
+  };
+
   # ✅ ALL user groups defined in ONE place
   users.users.ruairc = {
     isNormalUser = true;
