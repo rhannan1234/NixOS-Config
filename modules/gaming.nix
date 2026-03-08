@@ -16,6 +16,8 @@
     lact
     protonup-qt
     vulkan-tools
+    lsfg-vk
+    protonplus
   ];
 
   # 3. OpenGL & Vulkan Support
