@@ -14,7 +14,6 @@
     mangohud
     goverlay
     lact
-    protonup-qt
     vulkan-tools
     protonplus
   ];
