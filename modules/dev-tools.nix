@@ -15,9 +15,6 @@
     go
     nixfmt-classic
 
-    # Spicetify for Spotify customization
-    spicetify-cli
-
     # VS Code with extensions
     (pkgs.vscode-with-extensions.override {
       vscodeExtensions = with pkgs.vscode-extensions; [
