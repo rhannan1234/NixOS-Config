@@ -13,38 +13,49 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, spicetify-nix, ... }: {
-    nixosConfigurations = {
-      
-      WorkStation = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/WorkStation
-          spicetify-nix.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            # Import the external file here
-            home-manager.users.ruairc = import ./home.nix;
-          }
-        ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      spicetify-nix,
+      ...
+    }:
+    let
+      # Shared Home Manager configuration
+      homeManagerConfig = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.ruairc = import ./home.nix;
       };
 
-      Laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/Laptop
-          spicetify-nix.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            # Import the same file here (DRY principle)
-            home-manager.users.ruairc = import ./home.nix;
-          }
-        ];
+      # Helper function to create NixOS configurations
+      mkNixosConfig = { hostname, system, extraModules ? [ ] }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules =
+            [
+              ./hosts/${hostname}
+              spicetify-nix.nixosModules.default
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = homeManagerConfig;
+              }
+            ]
+            ++ extraModules;
+        };
+    in
+    {
+      nixosConfigurations = {
+        WorkStation = mkNixosConfig {
+          hostname = "WorkStation";
+          system = "x86_64-linux";
+        };
+
+        Laptop = mkNixosConfig {
+          hostname = "Laptop";
+          system = "x86_64-linux";
+        };
       };
     };
-  };
 }

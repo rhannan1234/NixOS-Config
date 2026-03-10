@@ -1,57 +1,56 @@
 ```
-# Nix-related files
+# Nix-specific
 .result
 *.drv
-*.out
-.nix-*
+*.narinfo
+.nixd/
+.nix-gcroots/
+.nix-elfdeps/
 
-# Logs and temp files
-*.log
+# Temporary files
 *.tmp
+*.temp
 
-# Environment files
+# Logs
+*.log
+
+# Environment
 .env
 .env.local
 *.env.*
 
-# Editor/IDE files
+# Dependencies (if any)
+node_modules/
+.venv/
+venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+target/
+.gradle/
+
+# Build artifacts (if any)
+dist/
+build/
+coverage/
+htmlcov/
+*.pyc
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Editor/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Build artifacts
-dist/
-build/
-target/
-
-# Dependencies
-.npm/
-.yarn/
-node_modules/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.so
-*.egg-info/
-
-# OS files
+# System
 .DS_Store
 Thumbs.db
-
-# Coverage reports
-.coverage
-coverage/
-htmlcov/
-
-# Temporary files
-*.tmp
-*~
-```
-
-Wait, let me reconsider the input. The changes are only Nix configuration files (.nix files), README.md, config.json, and similar source/config files. There are no build artifacts, dependencies, or temporary files in the change list.
-
-```
-
 ```
