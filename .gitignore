@@ -1,13 +1,57 @@
-# Ignore Nix results
-result
-result-*
+```
+# Nix-related files
+.result
+*.drv
+*.out
+.nix-*
 
-# Ignore hardware configs (they differ per machine, avoid merge conflicts)
-# NOTE: You usually want to commit hardware-configuration.nix, 
-# but if you want to avoid conflicts, ignore them and regenerate on install.
-# Best practice for personal repos: Commit them. 
-# Best practice for teams: Ignore them. 
-# For this guide, we assume personal repo, so we DO NOT ignore hardware-configuration.nix
-# However, ignore secrets:
-secrets/*.key
-secrets/*.txt
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment files
+.env
+.env.local
+*.env.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+dist/
+build/
+target/
+
+# Dependencies
+.npm/
+.yarn/
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+.coverage
+coverage/
+htmlcov/
+
+# Temporary files
+*.tmp
+*~
+```
+
+Wait, let me reconsider the input. The changes are only Nix configuration files (.nix files), README.md, config.json, and similar source/config files. There are no build artifacts, dependencies, or temporary files in the change list.
+
+```
+
+```

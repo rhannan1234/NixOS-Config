@@ -18,8 +18,7 @@
   };
 
   programs.firefox.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
-  # ✅ FIX: Enable GNOME Keyring (no .components option)
+  # GNOME Keyring for credential management
   services.gnome.gnome-keyring.enable = true;
 }
