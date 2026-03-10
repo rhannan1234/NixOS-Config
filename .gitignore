@@ -1,10 +1,4 @@
 ```
-# Nix-related files
-.result
-*.drv
-*.nix
-!modules/dev-tools.nix
-!modules/multimedia.nix
 
 # Logs and temp files
 *.log
