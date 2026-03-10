@@ -13,6 +13,13 @@
     ../../modules/AI.nix
   ];
 
+  networking.hostName = "WorkStation";
+
+  # Register Home Manager configuration
+  configurations.home-manager.workstation = {
+    module = ../../modules/home-manager;
+  };
+
   # Ollama configuration
   services.my-ollama.enable = true;
   services.my-ollama.models = [ "tinyllama" ];

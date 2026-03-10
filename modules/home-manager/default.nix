@@ -12,7 +12,7 @@
 
   # Install rebuildall script
   home.file.".local/bin/rebuildall" = {
-    source = ./scripts/rebuildall;
+    source = ../../scripts/rebuildall;
     executable = true;
   };
 
