@@ -1,6 +1,6 @@
 { config, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    # --- Core CLI Tools ---
+    # Core CLI tools
     vim
     git
     wget
@@ -9,36 +9,33 @@
     tree
     unzip
     jq
-    
-    # --- Languages & Runtimes ---
+
+    # Languages and runtimes
     python3
     go
-    nixfmt-classic # Modern Nix formatter
-    
-    # --- Spicetify ---
+    nixfmt-classic
+
+    # Spicetify for Spotify customization
     spicetify-cli
 
-    # --- VS Code with Extensions ---
+    # VS Code with extensions
     (pkgs.vscode-with-extensions.override {
       vscodeExtensions = with pkgs.vscode-extensions; [
-        # NixOS Support
+        # NixOS support
         bbenoist.nix
-        
-        # Python Support
+
+        # Python support
         ms-python.python
         ms-python.vscode-pylance
-        
-        # Go Support
+
+        # Go support
         golang.go
-        
-        # General Quality of Life
+
+        # General quality of life
         editorconfig.editorconfig
         esbenp.prettier-vscode
         rust-lang.rust-analyzer
       ];
     })
   ];
-
-  # Completions are automatically enabled for most packages in systemPackages.
-  # If you specifically need bash/zsh interactive features, configure them in home-manager.
 }

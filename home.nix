@@ -1,21 +1,22 @@
 { config, pkgs, ... }: {
   home.stateVersion = "25.11";
 
-  # ✅ Explicitly add to PATH via shell profile (more reliable than sessionPath)
+  # Add ~/.local/bin to PATH via shell profile
   programs.bash.profileExtra = ''
     export PATH="$HOME/.local/bin:$PATH"
   '';
-  # If you use zsh instead:
+
   programs.zsh.profileExtra = ''
     export PATH="$HOME/.local/bin:$PATH"
   '';
 
+  # Install rebuildall script
   home.file.".local/bin/rebuildall" = {
     source = ./scripts/rebuildall;
     executable = true;
   };
 
-  # --- Vesktop config ---
+  # Vesktop/Vencord configuration
   home.file.".config/vesktop/vencord/settings.json" = {
     text = builtins.toJSON {
       general = {

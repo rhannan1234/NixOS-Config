@@ -6,6 +6,4 @@
     obsidian
     obs-studio
   ];
-
-  nixpkgs.config.allowUnfree = true;
 }

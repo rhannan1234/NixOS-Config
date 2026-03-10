@@ -1,13 +1,13 @@
 { config, pkgs, lib, ... }: {
 
-  # 1. Enable Steam
+  # Enable Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
 
-  # 2. Install Gaming Packages
+  # Gaming packages
   environment.systemPackages = with pkgs; [
     steam
     heroic
@@ -18,17 +18,9 @@
     protonplus
   ];
 
-  # 3. OpenGL & Vulkan Support
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = lib.mkForce true;
-  };
-
-  # 4. LACT Service (AMD GPU Control)
+  # LACT Service for AMD GPU control
   services.lact.enable = true;
 
-  # 5. User Permissions
-  users.users.ruairc.extraGroups = [ 
-    "input"
-  ];
+  # Add input group for gaming peripherals
+  users.users.ruairc.extraGroups = [ "input" ];
 }
