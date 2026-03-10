@@ -12,7 +12,10 @@
     enable = true;
     
     # Use the Catppuccin theme
-    theme = "catppuccin-mocha";
+    theme = {
+      name = "catppuccin-mocha";
+      package = pkgs.spicetify-themes;
+    };
     
     colorScheme = "mocha";
     
