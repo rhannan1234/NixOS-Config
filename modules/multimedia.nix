@@ -4,12 +4,16 @@
     brave
     obsidian
     obs-studio
+    spotify
   ];
-
+  
   # Spicetify for Spotify customization
   programs.spicetify = {
     enable = true;
-    theme = "catppuccin-mocha";
+    
+    # Use the Catppuccin theme from spicetify-themes package
+    theme = pkgs.spicetify-themes.catppuccin-mocha;
+    
     colorScheme = "mocha";
     
     enabledExtensions = with config.programs.spicetify.extensions; [
