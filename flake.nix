@@ -42,6 +42,9 @@
                 # Allow unfree packages (needed for open-webui, spotify, etc.)
                 nixpkgs.config.allowUnfree = true;
                 
+                # Provide spicePkgs for spicetify configuration
+                _module.args.spicePkgs = spicetify-nix.legacyPackages.${system};
+                
                 home-manager = homeManagerConfig;
               }
             ]

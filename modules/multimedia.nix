@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, spicePkgs, ... }: {
   environment.systemPackages = with pkgs; [
     vesktop
     brave
@@ -14,7 +14,7 @@
   programs.spicetify = {
     enable = true;
     
-    enabledExtensions = with pkgs.spicetifyExtensions; [
+    enabledExtensions = with spicePkgs.extensions; [
       adblock
       hidePodcasts
       shuffle
