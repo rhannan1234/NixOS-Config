@@ -1,23 +1,18 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     vesktop
     brave
     obsidian
     obs-studio
+    
+    # Spotify and Spicetify for music customization
     spotify
+    spicetify-cli
   ];
   
   # Spicetify for Spotify customization
   programs.spicetify = {
     enable = true;
-    
-    # Use the Catppuccin theme
-    theme = {
-      name = "catppuccin-mocha";
-      package = pkgs.spicetify-themes;
-    };
-    
-    colorScheme = "mocha";
     
     enabledExtensions = with config.programs.spicetify.extensions; [
       adblock
