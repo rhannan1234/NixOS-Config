@@ -1,8 +1,4 @@
 ```
-# Nix-related
-result
-*.drv
-.nix-*
 
 # Temporary and cache files
 *.tmp
