@@ -14,7 +14,7 @@
   programs.spicetify = {
     enable = true;
     
-    enabledExtensions = with config.programs.spicetify.extensions; [
+    enabledExtensions = with pkgs.spicetifyExtensions; [
       adblock
       hidePodcasts
       shuffle
