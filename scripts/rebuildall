@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Find the git root of your NixOS config
-CONFIG_DIR="$(git rev-parse --show-toplevel 2>/dev/null)" || {
-    echo "❌ Error: Not inside your NixOS-Config git repository"
+# ✅ Hardcoded path to your NixOS config (change if needed)
+CONFIG_DIR="$HOME/NixOS-Config"
+
+if [ ! -d "$CONFIG_DIR" ]; then
+    echo "❌ Error: Config directory not found at $CONFIG_DIR"
     exit 1
-}
+fi
 
 cd "$CONFIG_DIR"
 
