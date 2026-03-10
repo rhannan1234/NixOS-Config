@@ -9,4 +9,15 @@
     spotify
     spicetify-cli
   ];
+  
+  # Spicetify for Spotify customization
+  programs.spicetify = {
+    enable = true;
+    
+    enabledExtensions = with config.programs.spicetify.extensions; [
+      adblock
+      hidePodcasts
+      shuffle
+    ];
+  };
 }
