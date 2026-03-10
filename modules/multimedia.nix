@@ -11,8 +11,8 @@
   programs.spicetify = {
     enable = true;
     
-    # Use the Catppuccin theme from spicetify-themes package
-    theme = pkgs.spicetify-themes.catppuccin-mocha;
+    # Use the Catppuccin theme
+    theme = "catppuccin-mocha";
     
     colorScheme = "mocha";
     
