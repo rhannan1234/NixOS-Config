@@ -1,30 +1,20 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
-dist/
-build/
-target/
+# Nix-related build artifacts
+result
+*.drv
+*.nix.drv
+.nix-*
 
-# Dependencies
-.venv/
-venv/
-node_modules/
-.julia/
-zig*/
-.mypy_cache/
-.pytest_cache/
-.gradle/
+# Dependencies and build directories
+.nix-profile/
+nix-shell/
+.nix-defexpr/
 
-# Logs and temp files
+# Logs and temporary files
 *.log
 *.tmp
-*.swp
-*.swo
 
-# Environment
+# Environment files
 .env
 .env.local
 *.env.*
@@ -33,36 +23,7 @@ zig*/
 .vscode/
 .idea/
 
-# System files
+# OS-specific
 .DS_Store
 Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```
