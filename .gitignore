@@ -1,48 +1,20 @@
 ```
 # Nix-specific
-.result
+result
 *.drv
-*.narinfo
 .nixd/
 .nix-gcroots/
-.nix-elfdeps/
+.nix-*
+!flake.nix
+!flake.lock
 
 # Temporary files
 *.tmp
 *.temp
+*~
 
 # Logs
 *.log
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Dependencies (if any)
-node_modules/
-.venv/
-venv/
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-target/
-.gradle/
-
-# Build artifacts (if any)
-dist/
-build/
-coverage/
-htmlcov/
-*.pyc
-*.class
-*.o
-*.obj
-*.exe
-*.dll
-*.so
-*.a
-*.out
 
 # Editor/IDE
 .vscode/
@@ -50,7 +22,36 @@ htmlcov/
 *.swp
 *.swo
 
-# System
+# Environment
+.env
+.env.local
+*.env.*
+
+# Build artifacts
+dist/
+build/
+target/
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+.venv/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+
+# System files
 .DS_Store
 Thumbs.db
 ```

@@ -39,6 +39,9 @@
               spicetify-nix.nixosModules.default
               home-manager.nixosModules.home-manager
               {
+                # Allow unfree packages (needed for open-webui, spotify, etc.)
+                nixpkgs.config.allowUnfree = true;
+                
                 home-manager = homeManagerConfig;
               }
             ]
