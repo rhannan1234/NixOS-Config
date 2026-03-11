@@ -26,17 +26,19 @@
 
   outputs =
     inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; }
-      # Imports all of the top-level modules (the files under `./modules`)
-      (inputs.import-tree ./modules)
-      # Import host configurations
-      ({ config, lib, ... }: {
-        imports = [ ./hosts ];
-        config.configurations.nixos = lib.mkMerge [
-          (lib.mapAttrs' (name: { module }: lib.nameValuePair name {
-            inherit name;
-            module = module;
-          }) config.hosts.nixos)
-        ];
-      });
+    flake-parts.lib.mkFlake
+      { inherit inputs; }
+      (
+        { config, lib, ... }:
+        {
+          imports = [ (inputs.import-tree ./modules) ./hosts ];
+          
+          config.configurations.nixos = lib.mkMerge [
+            (lib.mapAttrs' (name: { module }: lib.nameValuePair name {
+              inherit name;
+              module = module;
+            }) config.hosts.nixos)
+          ];
+        }
+      );
 }
