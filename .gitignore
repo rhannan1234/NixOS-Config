@@ -1,41 +1,15 @@
 ```
 # Nix-specific ignores
 result
-*.drv
-*.nix-cache-info
-.nix-gcroots/
+.result*
 .nix-*
 
-# Temporary files
-*.tmp
-*.swp
-*~
-
-# Logs
+# Logs and temp files
 *.log
+*.tmp
 
-# Environment files
+# Environment
 .env
 .env.local
 *.env.*
-
-# Build artifacts (if any)
-dist/
-build/
-target/
-
-# Dependencies (if any)
-node_modules/
-.venv/
-venv/
-__pycache__/
-*.egg-info/
-
-# OS-specific
-.DS_Store
-Thumbs.db
-
-# Editors
-.vscode/
-.idea/
 ```

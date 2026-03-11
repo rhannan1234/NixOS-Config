@@ -25,8 +25,21 @@
   };
 
   outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    inputs@{ flake-parts, ... }:
+    let
+      inherit (flake-parts.lib) mkFlake;
+    in
+    mkFlake { inherit inputs; }
       # Imports all of the top-level modules (the files under `./modules`)
-      (inputs.import-tree ./modules);
+      (inputs.import-tree ./modules)
+      # Import host configurations
+      ({ config, lib, ... }: {
+        imports = [ ./hosts ];
+        config.configurations.nixos = lib.mkMerge [
+          (lib.flip lib.mapAttrs config.hosts.nixos (name: { module }: {
+            inherit name;
+            module = module;
+          }))
+        ];
+      });
 }

@@ -27,32 +27,24 @@
   };
 
   # AMD GPU with ROCm support
-  hardware.amd-gpu = {
-    enable = true;
-    enable32Bit = true;
-    overrideGfxVersion = "12.0.1";
-  };
+  hardware.amd-gpu.enable = true;
+  hardware.amd-gpu.enable32Bit = true;
+  hardware.amd-gpu.overrideGfxVersion = "12.0.1";
 
   # Ollama service with ROCm
-  services.ollama-custom = {
-    enable = true;
-    rocmOverrideGfx = "12.0.1";
-    keepAlive = "2m";
-  };
+  services.ollama-custom.enable = true;
+  services.ollama-custom.rocmOverrideGfx = "12.0.1";
+  services.ollama-custom.keepAlive = "2m";
 
   # Open WebUI
-  services.open-webui-custom = {
-    enable = true;
-    port = 8080;
-    host = "127.0.0.1";
-    keepAlive = "2m";
-  };
+  services.open-webui-custom.enable = true;
+  services.open-webui-custom.port = 8080;
+  services.open-webui-custom.host = "127.0.0.1";
+  services.open-webui-custom.keepAlive = "2m";
 
   # Auto-pull models
-  services.ollama-models = {
-    enable = true;
-    models = [ "tinyllama" ];
-  };
+  services.ollama-models.enable = true;
+  services.ollama-models.models = [ "tinyllama" ];
 
   # CLI helper tools
   programs.ollama-tools.enable = true;
