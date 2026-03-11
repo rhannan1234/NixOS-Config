@@ -35,7 +35,6 @@
           
           config.configurations.nixos = lib.mkMerge [
             (lib.mapAttrs' (name: { module }: lib.nameValuePair name {
-              inherit name;
               module = module;
             }) config.hosts.nixos)
           ];
