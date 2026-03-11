@@ -15,8 +15,8 @@
   };
 
   config.flake = {
-    nixosConfigurations = lib.flip lib.mapAttrs config.configurations.nixos (
-      name: { module }: lib.nixosSystem {
+    nixosConfigurations = lib.mapAttrs' (
+      name: { module }: lib.nameValuePair name (lib.nixosSystem {
         inherit (config.systems) system;
         modules = [
           module
@@ -37,18 +37,15 @@
             };
           }
         ];
-      }
-    );
+      })
+    ) config.configurations.nixos;
 
-    checks =
-      config.flake.nixosConfigurations
-      |> lib.mapAttrsToList (
-        name: nixos: {
-          ${nixos.config.nixpkgs.hostPlatform.system} = {
-            "configurations:nixos:${name}" = nixos.config.system.build.toplevel;
-          };
-        }
-      )
-      |> lib.mkMerge;
+    checks = lib.mkMerge (lib.mapAttrsToList (
+      name: nixos: {
+        ${nixos.config.nixpkgs.hostPlatform.system} = {
+          "configurations:nixos:${name}" = nixos.config.system.build.toplevel;
+        };
+      }
+    ) config.flake.nixosConfigurations);
   };
 }
