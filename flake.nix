@@ -31,6 +31,8 @@
       (
         { config, lib, ... }:
         {
+          systems = [ "x86_64-linux" ];
+          
           imports = [ (inputs.import-tree ./modules) ./hosts ];
           
           config.configurations.nixos = lib.mkMerge [
