@@ -21,11 +21,6 @@
 
   networking.hostName = "WorkStation";
 
-  # Register Home Manager configuration
-  configurations.home-manager.workstation = {
-    module = ../../modules/home-manager.nix;
-  };
-
   # AMD GPU with ROCm support
   hardware.amd-gpu.enable = true;
   hardware.amd-gpu.enable32Bit = true;

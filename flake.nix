@@ -29,14 +29,16 @@
     let
       lib = inputs.nixpkgs.lib;
       hostDirs = builtins.filterAttrs (n: v: v == "directory") (builtins.readDir ./hosts);
-      hostModules = builtins.mapAttrs (n: _: { module = ./hosts + "/${n}"; }) hostDirs;
+      # Filter out default.nix and only include actual host directories
+      hostModules = builtins.mapAttrs (n: _: { module = ./hosts + "/${n}"; }) 
+        (lib.filterAttrs (n: v: n != "default.nix" && v == "directory") hostDirs);
     in
     flake-parts.lib.mkFlake
       { inherit inputs; }
       {
         systems = [ "x86_64-linux" ];
 
-        imports = [ (inputs.import-tree ./modules) ./hosts ];
+        imports = [ (inputs.import-tree ./modules) ];
 
         config.configurations.nixos =
           lib.mkMerge [

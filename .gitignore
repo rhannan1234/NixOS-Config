@@ -1,75 +1,18 @@
 ```
 # Nix-related
-.result
-.nixd/
-.nix-gcroots/
-*.nix~
+result
+.result*
+.nix-*
 
-# Logs and temp files
+# Dependencies
+.npm/
+.node_modules/
+.yarn/
+
+# Logs
 *.log
+
+# Temporary files
 *.tmp
-*.swp
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/modules/
-.DS_Store
-*.swp
 *~
-.pytest_cache/
-.mypy_cache/
-.hypothesis/
-
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Build outputs
-dist/
-build/
-target/
-*.out
-*.exe
-*.dll
-*.so
-*.a
-*.o
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 ```
