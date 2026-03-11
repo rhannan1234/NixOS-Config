@@ -39,15 +39,40 @@ spicetify apply
 
 ## Structure
 
+Following the **dendritic pattern** with **flake-parts**:
+
 ```
 .
-├── flake.nix              # Main flake configuration
-├── home.nix               # Home Manager configuration
+├── flake.nix                    # Main flake entry point
+├── hosts/
+│   ├── Laptop/
+│   │   ├── default.nix          # Laptop NixOS configuration
+│   │   └── hardware-configuration.nix
+│   └── WorkStation/
+│       ├── default.nix          # WorkStation NixOS configuration
+│       └── hardware-configuration.nix
 ├── modules/
-│   ├── multimedia.nix     # Multimedia apps (Spotify, OBS, etc.)
-│   └── ...                # Other module configurations
+│   ├── home-manager/
+│   │   └── default.nix          # Home Manager configuration (shared)
+│   ├── base.nix                 # Base system settings
+│   ├── desktop.nix              # Desktop environment
+│   ├── dev-tools.nix            # Development tools
+│   ├── multimedia.nix           # Multimedia apps (Spotify, OBS, etc.)
+│   ├── gaming.nix               # Gaming-related packages
+│   ├── AI.nix                   # AI/ML services (Ollama, Open WebUI)
+│   ├── meta.nix                 # Top-level options (username, hostname)
+│   ├── systems.nix              # Supported system architectures
+│   └── flake-parts.nix          # Flake-parts integration
+├── scripts/
+│   └── rebuildall               # Rebuild helper script
 └── README.md
 ```
+
+### Key Concepts
+
+- **Dendritic Pattern**: Every `.nix` file (except `flake.nix`) is a flake-parts module
+- **Module Registration**: Host configurations declare their Home Manager configs via `configurations.home-manager.<name>`
+- **Shared Configurations**: Home Manager config lives in `modules/home-manager/` and is referenced by multiple hosts
 
 ## License
 
