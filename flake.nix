@@ -28,15 +28,21 @@
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake
       { inherit inputs; }
-      ({ config, lib, ... }: {
+      {
         systems = [ "x86_64-linux" ];
         
         imports = [ (inputs.import-tree ./modules) ./hosts ];
         
-        config.configurations.nixos = lib.mkMerge [
-          (lib.mapAttrs' (name: { module }: lib.nameValuePair name {
-            module = module;
-          }) config.hosts.nixos)
-        ];
-      });
+        config.configurations.nixos = 
+          let
+            lib = inputs.nixpkgs.lib;
+            hostDirs = builtins.filterAttrs (n: v: v == "directory") (builtins.readDir ./hosts);
+            hostModules = builtins.mapAttrs (n: _: { module = ./hosts + "/${n}"; }) hostDirs;
+          in
+          lib.mkMerge [
+            (lib.mapAttrs' (name: { module }: lib.nameValuePair name {
+              module = module;
+            }) hostModules)
+          ];
+      };
 }
