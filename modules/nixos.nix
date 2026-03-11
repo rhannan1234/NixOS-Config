@@ -17,7 +17,7 @@
   config.flake = {
     nixosConfigurations = lib.mapAttrs' (
       name: { module }: lib.nameValuePair name (lib.nixosSystem {
-        inherit (config.systems) system;
+        system = "x86_64-linux";
         modules = [
           module
           inputs.home-manager.nixosModules.home-manager
@@ -27,13 +27,13 @@
             nixpkgs.config.allowUnfree = true;
             
             # Provide spicePkgs for spicetify configuration
-            _module.args.spicePkgs = inputs.spicetify-nix.legacyPackages.${config.systems.system};
+            _module.args.spicePkgs = inputs.spicetify-nix.legacyPackages.x86_64-linux;
             
             # Home Manager configuration
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${config.username}._module.args.spicePkgs = inputs.spicetify-nix.legacyPackages.${config.systems.system};
+              users.${config.username}._module.args.spicePkgs = inputs.spicetify-nix.legacyPackages.x86_64-linux;
             };
           }
         ];

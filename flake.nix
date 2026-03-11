@@ -21,6 +21,7 @@
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "flake-parts";
     };
   };
 
@@ -39,6 +40,10 @@
         systems = [ "x86_64-linux" ];
 
         imports = [ (inputs.import-tree ./modules) ];
+
+        perSystem = { config', ... }: {
+          _module.args.username = "ruairc";
+        };
 
         config.configurations.nixos =
           lib.mkMerge [

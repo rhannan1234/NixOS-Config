@@ -1,18 +1,20 @@
 ```
-# Nix-related
-result
-.result*
-.nix-*
+# Nix-specific ignores
+.result
+.cachix/
+.nixd/
+**/result*
 
-# Dependencies
-.npm/
-.node_modules/
-.yarn/
+# Temporary files
+*.tmp
+*.swp
+*~
 
 # Logs
 *.log
 
-# Temporary files
-*.tmp
-*~
+# Environment files
+.env
+.env.local
+*.env.*
 ```
