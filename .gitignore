@@ -1,29 +1,24 @@
 ```
-# Nix-specific
-result
-*.drv
+# Nix-related
+.result
 .nixd/
-.nix-gcroots/
-.nix-*
-!flake.nix
-!flake.lock
+.nix-gc-symlinks/
+.gcroots/
 
-# Dependencies
-.nix-profile/
-nix-channels/
-nixos/
-
-# Logs and temporary files
-*.log
+# Temporary files
 *.tmp
+*.temp
 *~
 
-# Environment
+# Logs
+*.log
+
+# Environment files
 .env
 .env.local
 *.env.*
 
-# Editors
+# Editor/IDE files
 .vscode/
 .idea/
 *.swp
@@ -33,43 +28,49 @@ nixos/
 dist/
 build/
 target/
-*.so
-*.dylib
-*.dll
-*.exe
 *.out
+*.exe
+*.dll
+*.so
+*.a
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-.Python
-*.egg-info/
-.eggs/
-
-# Node.js
+# Dependencies
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Virtual environments
 venv/
 .venv/
-env/
-ENV/
-
-# Coverage
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
 .coverage
 coverage/
 htmlcov/
 
-# Testing
-.pytest_cache/
-.mypy_cache/
-.hypothesis/
-
-# OS
+# System files
 .DS_Store
 Thumbs.db
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```

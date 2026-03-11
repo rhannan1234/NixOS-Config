@@ -28,7 +28,7 @@
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake
       { inherit inputs; }
-      {
+      ({ config, lib, ... }: {
         systems = [ "x86_64-linux" ];
         
         imports = [ (inputs.import-tree ./modules) ./hosts ];
@@ -38,5 +38,5 @@
             module = module;
           }) config.hosts.nixos)
         ];
-      };
+      });
 }
