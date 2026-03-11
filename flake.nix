@@ -45,3 +45,4 @@
             }) hostModules)
           ];
       };
+}
