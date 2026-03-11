@@ -23,7 +23,7 @@
 
   # Register Home Manager configuration
   configurations.home-manager.workstation = {
-    module = ../../modules/home-manager;
+    module = ../../modules/home-manager.nix;
   };
 
   # AMD GPU with ROCm support

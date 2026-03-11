@@ -3,11 +3,11 @@
 {
   # Import all Home Manager submodules
   imports = [
-    ./shells
-    ./programs
-    ./apps
+    ./home-manager/shells
+    ./home-manager/programs
+    ./home-manager/apps
   ];
-
+  
   # Enable all HM modules by default
   my.shells.enable = true;
   my.hm-programs.enable = true;
